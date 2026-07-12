@@ -10,6 +10,7 @@ export default [
       globals: {
         window: 'readonly',
         document: 'readonly',
+        setTimeout: 'readonly',
       },
     },
   },
