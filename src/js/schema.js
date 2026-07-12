@@ -64,4 +64,62 @@ export const SECTIONS = [
       { id: 'notes', label: 'Notes', type: 'textarea', placeholder: 'Primary email — reset link for most other accounts.' },
     ],
   },
+  {
+    id: 'financial',
+    title: 'Financial accounts',
+    description:
+      'Banks, brokerages, and retirement accounts. Record how to reach them and who can help — ' +
+      'not live account numbers or passwords.',
+    repeatable: { noun: 'account', addLabel: 'Add an account' },
+    fields: [
+      { id: 'institution', label: 'Institution', type: 'text', placeholder: 'First National Bank' },
+      {
+        id: 'accountType',
+        label: 'Account type',
+        type: 'text',
+        placeholder: 'Checking / savings / brokerage / 401(k)',
+      },
+      {
+        id: 'access',
+        label: 'How to access it, or who to contact',
+        type: 'textarea',
+        help: 'A branch, a phone number, an advisor — enough to start, without exposing the account.',
+        placeholder: 'Advisor: Sam Lee, (555) 010-9000. Statements come by mail.',
+      },
+      { id: 'notes', label: 'Notes', type: 'textarea', placeholder: 'Direct-deposit paycheck lands here.' },
+    ],
+  },
+  {
+    id: 'insurance',
+    title: 'Insurance policies',
+    description: 'Life, home, auto, health, and any other coverage that may need to be claimed or cancelled.',
+    repeatable: { noun: 'policy', addLabel: 'Add a policy' },
+    fields: [
+      { id: 'policyType', label: 'Policy type', type: 'text', placeholder: 'Term life' },
+      { id: 'provider', label: 'Provider', type: 'text', placeholder: 'Acme Mutual' },
+      { id: 'policyNumber', label: 'Policy number', type: 'text', placeholder: 'TL-4471902' },
+      {
+        id: 'agent',
+        label: 'Agent or contact',
+        type: 'text',
+        placeholder: 'Dana Ruiz, (555) 010-7788',
+      },
+    ],
+  },
+  {
+    id: 'subscriptions',
+    title: 'Subscriptions to cancel',
+    description: 'Recurring charges that will keep draining the account until someone stops them.',
+    repeatable: { noun: 'subscription', addLabel: 'Add a subscription' },
+    fields: [
+      { id: 'service', label: 'Service', type: 'text', placeholder: 'Streaming Plus' },
+      { id: 'billing', label: 'Billing frequency & amount', type: 'text', placeholder: '$15.99 monthly' },
+      {
+        id: 'cancelNotes',
+        label: 'How to cancel',
+        type: 'textarea',
+        placeholder: 'Cancel from the account page; no phone call needed.',
+      },
+    ],
+  },
 ];
