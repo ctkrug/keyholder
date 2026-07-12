@@ -1,27 +1,42 @@
 import { SECTIONS } from './schema.js';
-import { createInitialState, buildDocument, buildMeta } from './model.js';
+import { createInitialState, buildDocument, buildMeta, applyDraft } from './model.js';
 import { renderForm } from './form.js';
 import { documentToHtml } from './preview.js';
 import { exportPdf } from './pdf.js';
+import { isAutosaveEnabled, setAutosaveEnabled, saveDraft, loadDraft } from './storage.js';
 
 const EXPORT_FLASH_MS = 1400;
 
 function init() {
+  const storage = window.localStorage;
   const state = createInitialState(SECTIONS);
   const formEl = document.getElementById('checklist-form');
   const preview = document.getElementById('preview');
   const exportButton = document.getElementById('export-pdf');
   const exportStatus = document.getElementById('export-status');
+  const autosaveToggle = document.getElementById('autosave-toggle');
 
   const currentDocument = () => buildDocument(SECTIONS, state);
   const currentMeta = () => buildMeta(state.basics);
 
+  autosaveToggle.checked = isAutosaveEnabled(storage);
+  if (autosaveToggle.checked) {
+    const draft = loadDraft(storage);
+    if (draft) applyDraft(SECTIONS, state, draft);
+  }
+
   const update = () => {
     preview.innerHTML = documentToHtml(currentDocument(), currentMeta());
+    if (autosaveToggle.checked) saveDraft(storage, state);
   };
 
   renderForm(formEl, SECTIONS, state, update);
   update();
+
+  autosaveToggle.addEventListener('change', () => {
+    setAutosaveEnabled(storage, autosaveToggle.checked);
+    if (autosaveToggle.checked) saveDraft(storage, state);
+  });
 
   exportButton.addEventListener('click', () => {
     exportButton.classList.add('btn--pressed');
