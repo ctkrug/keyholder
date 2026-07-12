@@ -1,5 +1,7 @@
 # Keyholder
 
+[![CI](https://github.com/ctkrug/keyholder/actions/workflows/ci.yml/badge.svg)](https://github.com/ctkrug/keyholder/actions/workflows/ci.yml)
+
 A 100% client-side digital estate checklist generator. Fill in a short form, watch a clean,
 printable "if something happens to me" document build itself live in a preview pane, then
 export it as a PDF — all without a single byte ever leaving your browser.
