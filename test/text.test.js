@@ -39,6 +39,11 @@ test('renders masthead when meta supplied', () => {
   assert.match(text, /^Keyholder\nFor Jane Doe\n=+\n/);
 });
 
+test('a subtitle with no title still gets an underline sized to the minimum', () => {
+  const text = documentToText(doc, { subtitle: 'For Jane Doe' });
+  assert.match(text, /^For Jane Doe\n={12}\n/);
+});
+
 test('uppercases section titles and includes descriptions', () => {
   const text = documentToText(doc);
   assert.match(text, /THE BASICS\nWho this is for\./);
