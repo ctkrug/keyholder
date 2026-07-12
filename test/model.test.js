@@ -5,6 +5,7 @@ import {
   createInitialState,
   entryIsEmpty,
   buildDocument,
+  buildMeta,
 } from '../src/js/model.js';
 
 const fixed = {
@@ -89,6 +90,24 @@ test('buildDocument marks an all-blank repeatable section None listed', () => {
   const s = buildDocument([repeatable], { accounts: [{ service: '', user: '' }] }).sections[0];
   assert.deepEqual(s.groups, []);
   assert.equal(s.empty, 'None listed');
+});
+
+test('buildMeta falls back to a generic title and subtitle when basics is empty', () => {
+  assert.deepEqual(buildMeta(), {
+    title: 'Keyholder Checklist',
+    subtitle: 'A guide for the people you trust, if something happens to me.',
+  });
+  assert.deepEqual(buildMeta({ fullName: '  ', datePrepared: '' }), {
+    title: 'Keyholder Checklist',
+    subtitle: 'A guide for the people you trust, if something happens to me.',
+  });
+});
+
+test('buildMeta personalizes title and subtitle once basics are filled in', () => {
+  assert.deepEqual(buildMeta({ fullName: 'Jane Doe', datePrepared: 'July 2026' }), {
+    title: 'Jane Doe’s Keyholder Checklist',
+    subtitle: 'Prepared July 2026',
+  });
 });
 
 test('buildDocument preserves schema order', () => {

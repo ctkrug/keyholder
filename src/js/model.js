@@ -41,6 +41,20 @@ function rowsFor(fields, entry) {
   }));
 }
 
+// Build the masthead ({ title, subtitle }) shown atop the preview and PDF from
+// the basics section's entry, so the document reads as this person's checklist
+// once they've filled in a name, rather than a generic template forever.
+export function buildMeta(basics = {}) {
+  const name = String(basics.fullName || '').trim();
+  const prepared = String(basics.datePrepared || '').trim();
+  return {
+    title: name ? `${name}’s Keyholder Checklist` : 'Keyholder Checklist',
+    subtitle: prepared
+      ? `Prepared ${prepared}`
+      : 'A guide for the people you trust, if something happens to me.',
+  };
+}
+
 // Turn schema + value state into the document model consumed by every renderer.
 // A section becomes { id, title, description, repeatable, groups, empty } where
 // each group is { heading, rows: [{label, value}] }. Repeatable sections drop
