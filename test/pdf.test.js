@@ -176,3 +176,15 @@ test('saves the requested filename and stamps a footer on every page', () => {
   const footerCalls = pdf.calls.filter((c) => c.type === 'text' && c.str.startsWith('Made with Keyholder'));
   assert.equal(footerCalls.length, pdf.totalPages);
 });
+
+test('throws a clear error instead of crashing when the vendored jsPDF failed to load', () => {
+  globalThis.window = {};
+  try {
+    assert.throws(
+      () => exportPdf({ sections: [] }, {}),
+      /jsPDF is not loaded/,
+    );
+  } finally {
+    delete globalThis.window;
+  }
+});
