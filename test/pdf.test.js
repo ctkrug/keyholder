@@ -142,6 +142,31 @@ test('a single very long field paginates across pages instead of overflowing off
   );
 });
 
+test('a short section that would split near a page break starts fresh on the next page', () => {
+  // Orphan avoidance: a block small enough to fit entirely on one page, but
+  // not at the current y, should move to the top of a new page rather than
+  // splitting a heading from its first row of content.
+  const filler = Array.from({ length: 38 }, (_, i) => ({ label: `Field ${i}`, value: 'x' }));
+  const doc = {
+    sections: [
+      { title: 'Filler', description: '', empty: null, groups: [{ heading: null, rows: filler }] },
+      {
+        title: 'Short section',
+        description: '',
+        empty: null,
+        groups: [{ heading: null, rows: [{ label: 'A', value: 'y' }, { label: 'B', value: 'z' }] }],
+      },
+    ],
+  };
+
+  const pdf = withFakeJsPdf(() => exportPdf(doc, {}));
+
+  const margin = 18;
+  const heading = pdf.calls.find((c) => c.type === 'text' && c.str === 'Short section');
+  assert.equal(heading.page, 2, 'expected the short section to move to a fresh page');
+  assert.ok(Math.abs(heading.y - margin) < 0.01, 'expected it to start at the top margin of the new page');
+});
+
 test('saves the requested filename and stamps a footer on every page', () => {
   const doc = { sections: [{ title: 'Notes', description: '', empty: 'None listed', groups: [] }] };
 
