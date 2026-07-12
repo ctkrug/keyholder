@@ -56,7 +56,7 @@ instead of zero groups.
 | `src/js/preview.js` | Pure: document model → escaped HTML string for the live preview "paper sheet". |
 | `src/js/text.js` | Pure: document model → plain text (used by nothing yet — a text-export or copy-to-clipboard feature would reuse this). |
 | `src/js/pdf-layout.js` | Pure: document model → ordered list of `{ style, text }` instructions. Keeps section/field ordering and text content unit-testable separately from jsPDF/font-metric concerns. |
-| `src/js/pdf.js` | The only module touching the vendored jsPDF global. Walks `pdf-layout.js`'s instructions, applies the paper-and-ink styles, wraps text, paginates, stamps footers, and calls `.save()`. |
+| `src/js/pdf.js` | The only module touching the vendored jsPDF global. Walks `pdf-layout.js`'s instructions, applies the paper-and-ink styles, wraps text, paginates, stamps footers, and calls `.save()`. Paginates per wrapped line (not once per instruction block), so a single field long enough to span several pages doesn't overflow past the bottom margin. Unit-tested (`test/pdf.test.js`) against a minimal fake jsPDF that implements just the calls this module makes — no browser or the real vendored bundle needed. |
 | `src/js/storage.js` | Optional `localStorage` draft persistence. Takes an injectable `storage` argument instead of reaching for `window.localStorage` directly, so it unit-tests with a plain fake. Autosave defaults to off; turning it off clears the draft immediately. |
 | `src/js/app.js` | Wires everything above to the DOM: owns `state`, re-renders the preview on every input, handles Export PDF (press/success/error states), the autosave toggle (load/save/clear draft), and Clear-all (confirm + full state reset). |
 | `src/css/style.css` | The whole design system: tokens, vendored `@font-face`, layout grid, form control states, buttons, the preview "paper" styling, responsive breakpoints, and `@media print`. |
@@ -77,6 +77,14 @@ To use the app itself: serve `src/` with any static file server (`npx serve src`
 imports (`<script type="module">`) from `file://`, so `app.js` never runs and the form/preview
 stay empty. This isn't a bug to fix; it's an inherent `file://` restriction, which is why the
 README's dev instructions say "serve" rather than "open."
+
+## Accessibility notes
+
+`.panel--preview` becomes independently scrollable at desktop widths (see the `@media
+(min-width: 900px)` rule in `style.css`) but the rendered document has no focusable elements of
+its own, so the panel carries `tabindex="0"` and a themed focus ring — otherwise keyboard-only
+users would have no way to scroll it once content overflows the fold. A `<noscript>` banner in
+`index.html` explains that the app needs JavaScript, since there's no server to render a fallback.
 
 ## What's not built yet
 
