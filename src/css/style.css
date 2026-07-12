@@ -227,6 +227,15 @@ body {
   min-width: 0;
 }
 
+/* .panel--preview has no focusable descendants of its own once content
+   overflows and it becomes independently scrollable, so it needs to be a
+   keyboard-reachable scroll container in its own right (WCAG 2.1.1). */
+.panel--preview:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(138, 36, 34, 0.18);
+  border-radius: var(--radius-paper);
+}
+
 .panel--form {
   display: flex;
   flex-direction: column;
