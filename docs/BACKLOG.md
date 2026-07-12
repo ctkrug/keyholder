@@ -9,7 +9,7 @@ runs attack the acceptance criteria directly.
 The demo has to land before anything else gets built. This epic alone should be a complete,
 shippable (if minimal) product.
 
-- [ ] **1.1 — Live preview renders the full checklist as you type**
+- [x] **1.1 — Live preview renders the full checklist as you type**
   - Typing in any form field updates the preview pane's corresponding line within one input
     event (no submit button, no debounce lag perceptible to a human tester).
   - Preview reflects every section currently defined in `schema.js` — adding a section to the
@@ -17,7 +17,7 @@ shippable (if minimal) product.
   - Leaving a field blank renders its label with an empty value, never `undefined` or `null`
     printed into the document.
 
-- [ ] **1.2 — PDF export produces a legible, multi-section document**
+- [x] **1.2 — PDF export produces a legible, multi-section document**
   - Clicking "Export PDF" downloads a `.pdf` file containing every section header and every
     filled field value present in the live preview at click time.
   - A checklist long enough to overflow one page (e.g. all sections filled with realistic
@@ -25,13 +25,13 @@ shippable (if minimal) product.
   - Export works with zero fields filled in (produces a PDF of empty section headers, not an
     error or a blank/corrupt file).
 
-- [ ] **1.3 — Zero-network confirmation is true, not just claimed**
+- [x] **1.3 — Zero-network confirmation is true, not just claimed**
   - A visible banner states that nothing typed is transmitted anywhere.
   - Opening the browser devtools Network tab, filling in every field, and exporting a PDF
     produces zero outgoing requests of any kind after the initial page load.
   - README documents the exact verification steps above so anyone can check it themselves.
 
-- [ ] **1.4 — Design polish: Epic 1 matches `docs/DESIGN.md`**
+- [x] **1.4 — Design polish: Epic 1 matches `docs/DESIGN.md`**
   - Layout matches the two-column desktop / stacked-mobile intent at 390px, 768px, and 1440px
     with no horizontal scroll and no dead empty space around the preview pane.
   - Fraunces/Inter are loaded and applied per the type pairing; the animated wordmark is present
