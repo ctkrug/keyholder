@@ -197,3 +197,39 @@ body {
   font-size: 1.05rem;
   max-width: 60ch;
 }
+
+/* Layout: the live preview is the hero, so it gets the majority of the
+   viewport on desktop. Both panels are tall enough to scroll independently
+   once content overflows, rather than stretching the whole page. */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.panel {
+  min-width: 0;
+}
+
+.panel--form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 38%) minmax(0, 62%);
+    min-height: 70vh;
+  }
+
+  .panel--form,
+  .panel--preview {
+    position: sticky;
+    top: var(--space-3);
+    max-height: calc(100vh - var(--space-4));
+    overflow-y: auto;
+  }
+}
