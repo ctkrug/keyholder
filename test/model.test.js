@@ -152,6 +152,37 @@ test('applyDraft is a no-op for null, non-object, or empty-array-shaped drafts',
   assert.deepEqual(state, before);
 });
 
+test('applyDraft sanitizes malformed repeatable entries instead of crashing', () => {
+  const state = createInitialState([repeatable]);
+  const draft = {
+    accounts: [null, 'not an object', 42, { service: 'Gmail', user: 'jane', evil: true }],
+  };
+
+  applyDraft([repeatable], state, draft);
+
+  assert.deepEqual(state.accounts, [
+    { service: '', user: '' },
+    { service: '', user: '' },
+    { service: '', user: '' },
+    { service: 'Gmail', user: 'jane' },
+  ]);
+});
+
+test('buildDocument handles many repeatable entries and renumbers past ten', () => {
+  const entries = Array.from({ length: 12 }, (_, i) => ({ service: `Service ${i}`, user: `user${i}` }));
+  const s = buildDocument([repeatable], { accounts: entries }).sections[0];
+  assert.equal(s.groups.length, 12);
+  assert.equal(s.groups[0].heading, 'Account 1');
+  assert.equal(s.groups[11].heading, 'Account 12');
+  assert.equal(s.groups[11].rows[0].value, 'Service 11');
+});
+
+test('buildDocument preserves unicode, RTL, and emoji values untouched', () => {
+  const value = 'مرحبا بالعالم 🔑 日本語 Müller-Østergård';
+  const doc = buildDocument([fixed], { basics: { fullName: value, note: '' } });
+  assert.equal(doc.sections[0].groups[0].rows[0].value, value);
+});
+
 test('buildDocument preserves schema order', () => {
   const doc = buildDocument([fixed, repeatable], createInitialState([fixed, repeatable]));
   assert.deepEqual(
