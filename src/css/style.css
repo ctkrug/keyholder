@@ -233,3 +233,34 @@ body {
     overflow-y: auto;
   }
 }
+
+/* Form section cards */
+
+.checklist-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.form-section {
+  padding: var(--space-3);
+  background: var(--surface-1);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius-paper);
+  box-shadow: var(--shadow-paper);
+}
+
+.form-section__title {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--accent-support);
+}
+
+.form-section__desc {
+  margin: 0 0 var(--space-2);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 65ch;
+}
