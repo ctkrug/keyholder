@@ -5,6 +5,9 @@
   "description": "A 100% client-side digital estate checklist generator. Nothing you type ever leaves your browser.",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "test": "node --test test/",
     "lint": "eslint src test scripts",
