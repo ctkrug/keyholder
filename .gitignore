@@ -1,5 +1,6 @@
 node_modules/
 dist/
+site/
 src/vendor/
 .DS_Store
 *.log
