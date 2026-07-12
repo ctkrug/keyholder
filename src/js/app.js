@@ -41,6 +41,7 @@ function init() {
 
   exportButton.addEventListener('click', () => {
     exportButton.classList.add('btn--pressed');
+    exportButton.disabled = true;
     try {
       exportPdf(currentDocument(), currentMeta());
       exportStatus.textContent = 'PDF saved — check your downloads.';
@@ -51,7 +52,10 @@ function init() {
       exportStatus.classList.remove('status-line--success');
       exportStatus.classList.add('status-line--error');
     } finally {
-      setTimeout(() => exportButton.classList.remove('btn--pressed'), EXPORT_FLASH_MS);
+      setTimeout(() => {
+        exportButton.classList.remove('btn--pressed');
+        exportButton.disabled = false;
+      }, EXPORT_FLASH_MS);
     }
   });
 
