@@ -118,7 +118,9 @@ test('a single very long field paginates across pages instead of overflowing off
 
   assert.ok(pdf.totalPages > 1, 'expected the long field to overflow onto additional pages');
 
-  const textCalls = pdf.calls.filter((c) => c.type === 'text');
+  // Footers are deliberately stamped closer to the physical page edge than
+  // the body content margin (see stampFooters in pdf.js) — exclude them.
+  const textCalls = pdf.calls.filter((c) => c.type === 'text' && !c.str.startsWith('Made with Keyholder') && !c.str.startsWith('Page '));
   for (const call of textCalls) {
     assert.ok(
       call.y >= margin - 0.01 && call.y <= bottomLimit + 0.01,

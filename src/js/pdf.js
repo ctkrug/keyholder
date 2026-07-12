@@ -52,11 +52,20 @@ export function exportPdf(doc, meta = {}, { filename = 'keyholder-document.pdf' 
     const lh = lineHeight(style.size);
 
     y += style.top;
-    if (y + wrapped.length * lh > bottomLimit) {
+    // Orphan avoidance: a block short enough to fit on one page, but not at
+    // the current y, starts fresh on the next page rather than splitting.
+    const blockHeight = wrapped.length * lh;
+    if (blockHeight <= bottomLimit - margin && y + blockHeight > bottomLimit) {
       pdf.addPage();
       y = margin;
     }
     for (const wrappedLine of wrapped) {
+      // A block taller than a single page (e.g. one very long note field)
+      // still needs to paginate line by line instead of overflowing forever.
+      if (y + lh > bottomLimit) {
+        pdf.addPage();
+        y = margin;
+      }
       pdf.text(wrappedLine, margin + indent, y, { baseline: 'top' });
       y += lh;
     }
