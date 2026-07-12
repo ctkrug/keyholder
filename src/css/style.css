@@ -150,6 +150,20 @@ body {
   font-size: 1.1rem;
 }
 
+/* Shown only when JavaScript is disabled — this is a client-side-only tool,
+   so there is no server-rendered fallback; the banner just explains why the
+   rest of the page is inert instead of leaving a silent, broken shell. */
+.noscript-banner {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-control);
+  background: var(--surface-1);
+  color: var(--danger);
+  font-weight: 600;
+  max-width: 70ch;
+}
+
 .wordmark {
   display: flex;
   align-items: center;
