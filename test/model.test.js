@@ -1,0 +1,100 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  emptyEntry,
+  createInitialState,
+  entryIsEmpty,
+  buildDocument,
+} from '../src/js/model.js';
+
+const fixed = {
+  id: 'basics',
+  title: 'The basics',
+  description: 'Who this is for.',
+  fields: [
+    { id: 'fullName', label: 'Full legal name', type: 'text' },
+    { id: 'note', label: 'Note', type: 'textarea' },
+  ],
+};
+
+const repeatable = {
+  id: 'accounts',
+  title: 'Accounts',
+  description: 'Logins.',
+  repeatable: { noun: 'account', addLabel: 'Add an account' },
+  fields: [
+    { id: 'service', label: 'Service', type: 'text' },
+    { id: 'user', label: 'User', type: 'text' },
+  ],
+};
+
+test('emptyEntry has every field present and blank', () => {
+  assert.deepEqual(emptyEntry(fixed), { fullName: '', note: '' });
+});
+
+test('createInitialState gives fixed an object and repeatable one blank entry', () => {
+  const state = createInitialState([fixed, repeatable]);
+  assert.deepEqual(state.basics, { fullName: '', note: '' });
+  assert.deepEqual(state.accounts, [{ service: '', user: '' }]);
+});
+
+test('entryIsEmpty treats whitespace-only values as empty', () => {
+  assert.equal(entryIsEmpty({ service: '   ', user: '\n' }, repeatable.fields), true);
+  assert.equal(entryIsEmpty({ service: 'Gmail', user: '' }, repeatable.fields), false);
+  assert.equal(entryIsEmpty(undefined, repeatable.fields), true);
+});
+
+test('buildDocument renders a fixed section as one group with all rows', () => {
+  const doc = buildDocument([fixed], { basics: { fullName: 'Jane', note: '' } });
+  assert.equal(doc.sections.length, 1);
+  const s = doc.sections[0];
+  assert.equal(s.repeatable, false);
+  assert.equal(s.empty, null);
+  assert.deepEqual(s.groups, [
+    {
+      heading: null,
+      rows: [
+        { label: 'Full legal name', value: 'Jane' },
+        { label: 'Note', value: '' },
+      ],
+    },
+  ]);
+});
+
+test('buildDocument never emits undefined/null for a missing value', () => {
+  const doc = buildDocument([fixed], {});
+  const rows = doc.sections[0].groups[0].rows;
+  assert.equal(rows[0].value, '');
+  assert.equal(rows[1].value, '');
+});
+
+test('buildDocument numbers repeatable entries and drops blank ones', () => {
+  const state = {
+    accounts: [
+      { service: 'Gmail', user: 'jane@example.com' },
+      { service: '   ', user: '' }, // blank -> dropped
+      { service: 'Bank', user: 'jane' },
+    ],
+  };
+  const s = buildDocument([repeatable], state).sections[0];
+  assert.equal(s.repeatable, true);
+  assert.equal(s.empty, null);
+  assert.equal(s.groups.length, 2);
+  assert.equal(s.groups[0].heading, 'Account 1');
+  assert.equal(s.groups[1].heading, 'Account 2'); // renumbered after the drop
+  assert.equal(s.groups[1].rows[0].value, 'Bank');
+});
+
+test('buildDocument marks an all-blank repeatable section None listed', () => {
+  const s = buildDocument([repeatable], { accounts: [{ service: '', user: '' }] }).sections[0];
+  assert.deepEqual(s.groups, []);
+  assert.equal(s.empty, 'None listed');
+});
+
+test('buildDocument preserves schema order', () => {
+  const doc = buildDocument([fixed, repeatable], createInitialState([fixed, repeatable]));
+  assert.deepEqual(
+    doc.sections.map((s) => s.id),
+    ['basics', 'accounts'],
+  );
+});
