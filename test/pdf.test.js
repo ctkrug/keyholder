@@ -127,6 +127,19 @@ test('a single very long field paginates across pages instead of overflowing off
       `line drawn at y=${call.y} on page ${call.page} falls outside the printable area`,
     );
   }
+
+  // Pagination should pack lines densely, not break a fresh page for every
+  // single line — otherwise a bug that page-breaks far too eagerly would
+  // still satisfy the bounds check above while producing hundreds of pages.
+  const linesPerPage = {};
+  for (const call of textCalls) linesPerPage[call.page] = (linesPerPage[call.page] || 0) + 1;
+  const fieldLineHeight = 11 * 0.3528 * 1.2;
+  const capacity = Math.floor((bottomLimit - margin) / fieldLineHeight);
+  const fullestPage = Math.max(...Object.values(linesPerPage));
+  assert.ok(
+    fullestPage > capacity * 0.5,
+    `expected a densely packed page (~${capacity} lines), fullest page only had ${fullestPage}`,
+  );
 });
 
 test('saves the requested filename and stamps a footer on every page', () => {
