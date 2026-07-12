@@ -35,7 +35,6 @@ Don't take the banner's word for it — check in about ten seconds:
    that could: the form, the preview, and the PDF exporter are pure functions over in-memory
    state, and jsPDF's `.save()` writes directly to a browser download, not a network request.
 
-
 ## The wow moment
 
 You fill in a short form and a clean, printable estate document builds itself live in a preview
@@ -67,8 +66,9 @@ in devtools: zero network requests, ever).
 
 ## Status
 
-Early scaffold. See [`docs/VISION.md`](docs/VISION.md) for the full design rationale and
-[`docs/BACKLOG.md`](docs/BACKLOG.md) for the build plan.
+The core checklist is functional end-to-end: fill in the form, watch the live preview build the
+document, export a PDF. See [`docs/VISION.md`](docs/VISION.md) for the full design rationale and
+[`docs/BACKLOG.md`](docs/BACKLOG.md) for what's done and what's left.
 
 ## Development
 
@@ -77,8 +77,10 @@ npm install
 npm test
 ```
 
-Open `src/index.html` directly in a browser, or serve the `src/` directory with any static
-file server.
+Serve the `src/` directory with any static file server, e.g. `npx serve src` or
+`python3 -m http.server --directory src`, then open it in a browser. Browsers block ES module
+imports (`<script type="module">`) from a bare `file://` URL, so opening `src/index.html`
+directly won't load the app — it needs to come from an actual origin, even a local one.
 
 ## License
 
