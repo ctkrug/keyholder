@@ -56,6 +56,23 @@ test('renders the None listed marker for empty sections', () => {
   assert.match(text, /SUBSCRIPTIONS\n {2}None listed/);
 });
 
+test('unicode, RTL, and emoji values render untouched', () => {
+  const value = 'مرحبا بالعالم 🔑 日本語 Müller-Østergård';
+  const intl = {
+    sections: [
+      {
+        id: 'x',
+        title: 'X',
+        description: '',
+        repeatable: false,
+        groups: [{ heading: null, rows: [{ label: 'Name', value }] }],
+        empty: null,
+      },
+    ],
+  };
+  assert.match(documentToText(intl), new RegExp(`Name: ${value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`));
+});
+
 test('never prints the word undefined or null for blank values', () => {
   const blank = {
     sections: [

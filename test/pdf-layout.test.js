@@ -65,6 +65,24 @@ test('empty sections emit a single empty instruction and no fields', () => {
   assert.deepEqual(lines[subsIdx + 1], { style: 'empty', text: 'None listed' });
 });
 
+test('unicode, RTL, and emoji values pass through untouched', () => {
+  const value = 'مرحبا بالعالم 🔑 日本語 Müller-Østergård';
+  const intl = {
+    sections: [
+      {
+        id: 'x',
+        title: 'X',
+        description: '',
+        repeatable: false,
+        groups: [{ heading: null, rows: [{ label: 'Name', value }] }],
+        empty: null,
+      },
+    ],
+  };
+  const lines = documentToPdfLines(intl);
+  assert.ok(lines.some((l) => l.style === 'field' && l.text === `Name: ${value}`));
+});
+
 test('never leaks undefined/null into instruction text', () => {
   const lines = documentToPdfLines(doc);
   for (const line of lines) assert.doesNotMatch(line.text, /undefined|null/);

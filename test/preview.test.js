@@ -84,6 +84,23 @@ test('user input cannot inject markup', () => {
   assert.match(html, /&lt;script&gt;/);
 });
 
+test('unicode, RTL, and emoji values render untouched', () => {
+  const value = 'مرحبا بالعالم 🔑 日本語 Müller-Østergård';
+  const intl = {
+    sections: [
+      {
+        id: 'x',
+        title: 'X',
+        description: '',
+        repeatable: false,
+        groups: [{ heading: null, rows: [{ label: 'Name', value }] }],
+        empty: null,
+      },
+    ],
+  };
+  assert.match(documentToHtml(intl), new RegExp(value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+});
+
 test('newlines in a value become <br>', () => {
   const multi = {
     sections: [
