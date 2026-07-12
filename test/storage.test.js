@@ -79,6 +79,16 @@ test('clearDraft removes the draft without touching the autosave preference', ()
   assert.equal(isAutosaveEnabled(storage), true);
 });
 
+test('loadDraft returns an array as-is (typeof array is "object") without throwing', () => {
+  // A hand-edited or corrupted draft could be a JSON array rather than the
+  // expected shape. loadDraft only guards against non-objects and unparsable
+  // JSON; applyDraft is responsible for treating an unrecognized shape as a
+  // no-op, so this is exercised end to end rather than asserting null here.
+  const storage = fakeStorage();
+  storage.setItem(DRAFT_KEY, JSON.stringify([1, 2, 3]));
+  assert.deepEqual(loadDraft(storage), [1, 2, 3]);
+});
+
 test('keys are namespaced under keyholder: so they never collide with other apps', () => {
   assert.equal(AUTOSAVE_KEY, 'keyholder:autosave-enabled');
   assert.equal(DRAFT_KEY, 'keyholder:draft');

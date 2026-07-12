@@ -152,6 +152,15 @@ test('applyDraft is a no-op for null, non-object, or empty-array-shaped drafts',
   assert.deepEqual(state, before);
 });
 
+test('applyDraft is a no-op when the whole draft is an array, not the expected section map', () => {
+  const state = createInitialState([fixed, repeatable]);
+  const before = structuredClone(state);
+
+  applyDraft([fixed, repeatable], state, [1, 2, 3]);
+
+  assert.deepEqual(state, before);
+});
+
 test('applyDraft sanitizes malformed repeatable entries instead of crashing', () => {
   const state = createInitialState([repeatable]);
   const draft = {
