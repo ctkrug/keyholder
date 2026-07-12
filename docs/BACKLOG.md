@@ -85,20 +85,20 @@ shippable (if minimal) product.
 
 ## Epic 3 — Persistence, safety, and resilience
 
-- [ ] **3.1 — Optional local autosave**
+- [x] **3.1 — Optional local autosave**
   - Autosave is off by default; an explicit toggle turns it on.
   - When on, form state persists to `localStorage` and survives a page reload; when off, a
     reload clears the form with no residual data written.
   - The zero-network banner/copy is updated to mention that autosave (if enabled) stays local,
     so the claim stays accurate rather than stale.
 
-- [ ] **3.2 — Clear/reset flow with confirmation**
+- [x] **3.2 — Clear/reset flow with confirmation**
   - A "Clear all" control requires an explicit confirmation step (e.g. a confirm dialog or
     two-step button) before wiping form state and any autosaved `localStorage` entry.
   - After confirming, the preview pane returns to its empty state and no stale data remains in
     `localStorage`.
 
-- [ ] **3.3 — Design polish: Epic 3 states**
+- [x] **3.3 — Design polish: Epic 3 states**
   - Autosave toggle and Clear-all control both have designed hover/focus/active/disabled states
     consistent with `docs/DESIGN.md` tokens.
   - A designed empty state exists for the preview pane before any field has been touched
