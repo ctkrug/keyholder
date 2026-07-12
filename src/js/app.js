@@ -1,33 +1,43 @@
 import { SECTIONS } from './schema.js';
-import { renderDocument } from './render.js';
+import { createInitialState, buildDocument, buildMeta } from './model.js';
+import { renderForm } from './form.js';
+import { documentToHtml } from './preview.js';
 import { exportPdf } from './pdf.js';
 
-function readValues(form) {
-  const values = {};
-  for (const section of SECTIONS) {
-    for (const field of section.fields) {
-      const input = form.elements.namedItem(field.id);
-      values[field.id] = input ? input.value : '';
-    }
-  }
-  return values;
-}
+const EXPORT_FLASH_MS = 1400;
 
 function init() {
-  const form = document.getElementById('checklist-form');
+  const state = createInitialState(SECTIONS);
+  const formEl = document.getElementById('checklist-form');
   const preview = document.getElementById('preview');
   const exportButton = document.getElementById('export-pdf');
+  const exportStatus = document.getElementById('export-status');
+
+  const currentDocument = () => buildDocument(SECTIONS, state);
+  const currentMeta = () => buildMeta(state.basics);
 
   const update = () => {
-    preview.textContent = renderDocument(SECTIONS, readValues(form));
+    preview.innerHTML = documentToHtml(currentDocument(), currentMeta());
   };
 
-  form.addEventListener('input', update);
-  exportButton.addEventListener('click', () => {
-    exportPdf(renderDocument(SECTIONS, readValues(form)));
-  });
-
+  renderForm(formEl, SECTIONS, state, update);
   update();
+
+  exportButton.addEventListener('click', () => {
+    exportButton.classList.add('btn--pressed');
+    try {
+      exportPdf(currentDocument(), currentMeta());
+      exportStatus.textContent = 'PDF saved — check your downloads.';
+      exportStatus.classList.remove('status-line--error');
+      exportStatus.classList.add('status-line--success');
+    } catch (error) {
+      exportStatus.textContent = `Export failed: ${error.message}`;
+      exportStatus.classList.remove('status-line--success');
+      exportStatus.classList.add('status-line--error');
+    } finally {
+      setTimeout(() => exportButton.classList.remove('btn--pressed'), EXPORT_FLASH_MS);
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init);
