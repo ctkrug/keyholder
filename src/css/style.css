@@ -470,3 +470,111 @@ textarea.field__control {
   align-self: flex-end;
   margin-top: var(--space-1);
 }
+
+/* The preview pane: the hero. Styled as an actual sheet of paper — even
+   stacked on mobile it should read as "a page," never a dead gray box. */
+
+.paper {
+  min-height: 60vh;
+  padding: var(--space-4);
+  background: var(--surface-1);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius-paper);
+  box-shadow: var(--shadow-paper);
+}
+
+.doc__masthead {
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--text);
+}
+
+.doc__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--text);
+}
+
+.doc__subtitle {
+  margin: 0.35em 0 0;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+.doc-section {
+  margin-bottom: var(--space-4);
+}
+
+.doc-section:last-child {
+  margin-bottom: 0;
+}
+
+.doc-section__title {
+  margin: 0 0 0.2em;
+  padding-bottom: 0.3em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--accent-support);
+  border-bottom: 1px solid var(--surface-2);
+}
+
+.doc-section__desc {
+  margin: 0 0 var(--space-2);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 65ch;
+}
+
+.doc-section__empty {
+  margin: 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.doc-entry {
+  margin-bottom: var(--space-2);
+}
+
+.doc-entry:last-child {
+  margin-bottom: 0;
+}
+
+.doc-entry__title {
+  margin: 0 0 0.3em;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.doc-fields {
+  display: grid;
+  grid-template-columns: minmax(10em, 32%) 1fr;
+  row-gap: 0.4em;
+  column-gap: var(--space-2);
+  margin: 0;
+}
+
+.doc-field {
+  display: contents;
+}
+
+.doc-field__label {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.doc-field__value {
+  margin: 0;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.doc-field__value.is-empty::after {
+  content: '—';
+  color: var(--text-muted);
+}
