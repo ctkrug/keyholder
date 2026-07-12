@@ -20,8 +20,6 @@ schema.js (SECTIONS)
     │         that no longer matches the current schema shape)
     │
     ├──> preview.js::documentToHtml(doc, meta)  -> HTML string  -> #preview.innerHTML
-    ├──> text.js::documentToText(doc, meta)     -> plain text (unused by app.js yet;
-    │                                               kept for a future "copy as text" feature)
     └──> pdf-layout.js::documentToPdfLines(doc, meta) -> styled instruction list
              └──> pdf.js::exportPdf(doc, meta)        -> walks the instructions with jsPDF,
                                                           paginates, triggers a file download
@@ -54,7 +52,6 @@ instead of zero groups.
 | `src/js/model.js` | Pure transforms: schema + state → initial state / document model / masthead meta. No DOM. |
 | `src/js/form.js` | DOM-touching: builds form controls from the schema, binds them to `state`, manages repeatable add/remove. Exports `controlId` (pure, tested) for stable/collision-free element ids. |
 | `src/js/preview.js` | Pure: document model → escaped HTML string for the live preview "paper sheet". |
-| `src/js/text.js` | Pure: document model → plain text (used by nothing yet — a text-export or copy-to-clipboard feature would reuse this). |
 | `src/js/pdf-layout.js` | Pure: document model → ordered list of `{ style, text }` instructions. Keeps section/field ordering and text content unit-testable separately from jsPDF/font-metric concerns. |
 | `src/js/pdf.js` | The only module touching the vendored jsPDF global. Walks `pdf-layout.js`'s instructions, applies the paper-and-ink styles, wraps text, paginates, stamps footers, and calls `.save()`. Paginates per wrapped line (not once per instruction block), so a single field long enough to span several pages doesn't overflow past the bottom margin. Unit-tested (`test/pdf.test.js`) against a minimal fake jsPDF that implements just the calls this module makes — no browser or the real vendored bundle needed. |
 | `src/js/storage.js` | Optional `localStorage` draft persistence. Takes an injectable `storage` argument instead of reaching for `window.localStorage` directly, so it unit-tests with a plain fake. Autosave defaults to off; turning it off clears the draft immediately. |
