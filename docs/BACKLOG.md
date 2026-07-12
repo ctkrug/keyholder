@@ -41,42 +41,42 @@ shippable (if minimal) product.
 
 ## Epic 2 — Full checklist content
 
-- [ ] **2.1 — Accounts & logins section**
+- [x] **2.1 — Accounts & logins section**
   - Fields exist for at least: service name, username/email, where the credential is stored
     (e.g. "password manager," "written down in X"), and notes.
   - Section supports adding multiple entries (at least 3 without a layout break) since most
     people have more than one account to list.
 
-- [ ] **2.2 — Financial accounts section**
+- [x] **2.2 — Financial accounts section**
   - Fields cover institution name, account type, and how to access it (contact/instructions),
     without ever asking for a live account number or password field labeled as such.
   - Renders correctly in both the live preview and the exported PDF.
 
-- [ ] **2.3 — Insurance policies section**
+- [x] **2.3 — Insurance policies section**
   - Fields cover policy type (life, home, auto, etc.), provider, policy number, and
     agent/contact info.
   - At least two policy entries can be added and both appear in the preview and PDF.
 
-- [ ] **2.4 — Subscriptions to cancel section**
+- [x] **2.4 — Subscriptions to cancel section**
   - Fields cover service name, billing frequency, and cancellation notes (e.g. "cancel via
     website," "call to cancel").
   - Empty subscription list renders a clean "None listed" line rather than an empty gap.
 
-- [ ] **2.5 — Physical assets & important documents section**
+- [x] **2.5 — Physical assets & important documents section**
   - Fields cover document/asset name, physical location, and any relevant safe/lockbox
     combination reference (stored as free text the user controls, not a structured secret
     field that implies extra protection the app doesn't provide).
 
-- [ ] **2.6 — Pets & dependents, and final wishes section**
+- [x] **2.6 — Pets & dependents, and final wishes section**
   - Pets/dependents: name, care instructions, and a designated contact.
   - Final wishes: a free-text area for burial/cremation preference, service preferences, and
     any other instructions, clearly separated from the legally-binding-will disclaimer.
 
-- [ ] **2.7 — Free-form notes section**
+- [x] **2.7 — Free-form notes section**
   - A single open text area included in both preview and PDF output, positioned last in the
     document.
 
-- [ ] **2.8 — Design polish: Epic 2 long-document handling**
+- [x] **2.8 — Design polish: Epic 2 long-document handling**
   - A dedicated print stylesheet (`@media print`) produces clean pagination directly from the
     browser's own Print dialog, matching the PDF export's section order.
   - With every section populated with realistic multi-entry sample data, the page at 1440px and
