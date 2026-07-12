@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Keyholder</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <p class="banner">Nothing you type here is ever sent anywhere. Check the network tab.</p>
+  <h1>Keyholder</h1>
+  <div class="layout">
+    <form id="checklist-form">
+      <label for="fullName">Full legal name</label>
+      <input id="fullName" name="fullName" type="text" />
+    </form>
+    <pre id="preview"></pre>
+  </div>
+  <button id="export-pdf" type="button">Export PDF</button>
+
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
