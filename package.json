@@ -1,0 +1,20 @@
+{
+  "name": "keyholder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A 100% client-side digital estate checklist generator. Nothing you type ever leaves your browser.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/",
+    "lint": "eslint src test scripts",
+    "postinstall": "node scripts/copy-vendor.js"
+  },
+  "dependencies": {
+    "jspdf": "^2.5.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.9.0",
+    "@eslint/js": "^9.9.0"
+  }
+}
