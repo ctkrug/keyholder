@@ -703,6 +703,44 @@ textarea.field__control {
   }
 }
 
+/* Footer: an unobtrusive close to the page — the GitHub source link (this
+   tool's honesty rests on being readable) and one quiet portfolio link. */
+
+.site-footer {
+  margin-top: var(--space-6);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--surface-2);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.site-footer__line {
+  margin: 0 0 var(--space-1);
+  max-width: 70ch;
+}
+
+.site-footer__portfolio {
+  margin: 0;
+}
+
+.site-footer__link {
+  color: var(--accent-support);
+  text-decoration-color: var(--surface-2);
+  text-underline-offset: 2px;
+  border-radius: 2px;
+  transition: color var(--motion-ui), text-decoration-color var(--motion-ui);
+}
+
+.site-footer__link:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+.site-footer__link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(138, 36, 34, 0.28);
+}
+
 /* Print: let the browser's own Print dialog produce the same document the
    PDF export does, section order and all — no app chrome, no form, no
    banner, just the sheet. */
@@ -713,7 +751,8 @@ textarea.field__control {
   }
 
   .site-header,
-  .panel--form {
+  .panel--form,
+  .site-footer {
     display: none;
   }
 
