@@ -25,6 +25,38 @@ export function createInitialState(sections) {
   return state;
 }
 
+// A copy of `entry` with every field coerced to a string and any unknown
+// keys dropped, so data saved under an older/different schema version can't
+// inject unexpected shapes into the live form state.
+function sanitizeEntry(section, entry) {
+  const clean = emptyEntry(section);
+  for (const field of section.fields) {
+    if (typeof entry?.[field.id] === 'string') clean[field.id] = entry[field.id];
+  }
+  return clean;
+}
+
+// Merge a saved draft (e.g. loaded from localStorage) into `state` in place,
+// section by section, and return it. A section missing from the draft, or
+// whose shape no longer matches (fixed vs. repeatable), is left at whatever
+// `state` already had for it — a partial or stale draft degrades gracefully
+// instead of corrupting the form.
+export function applyDraft(sections, state, draft) {
+  if (!draft || typeof draft !== 'object') return state;
+
+  for (const section of sections) {
+    const value = draft[section.id];
+    if (section.repeatable) {
+      if (Array.isArray(value) && value.length > 0) {
+        state[section.id] = value.map((entry) => sanitizeEntry(section, entry));
+      }
+    } else if (value && typeof value === 'object') {
+      state[section.id] = sanitizeEntry(section, value);
+    }
+  }
+  return state;
+}
+
 // True when every field in an entry is blank (ignoring surrounding whitespace).
 export function entryIsEmpty(entry, fields) {
   return fields.every((field) => String(entry?.[field.id] ?? '').trim() === '');

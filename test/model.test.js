@@ -6,6 +6,7 @@ import {
   entryIsEmpty,
   buildDocument,
   buildMeta,
+  applyDraft,
 } from '../src/js/model.js';
 
 const fixed = {
@@ -108,6 +109,47 @@ test('buildMeta personalizes title and subtitle once basics are filled in', () =
     title: 'Jane Doe’s Keyholder Checklist',
     subtitle: 'Prepared July 2026',
   });
+});
+
+test('applyDraft merges matching fixed and repeatable sections into state', () => {
+  const state = createInitialState([fixed, repeatable]);
+  const draft = {
+    basics: { fullName: 'Jane Doe', note: 'hi' },
+    accounts: [{ service: 'Gmail', user: 'jane@example.com' }, { service: 'Bank', user: 'jane' }],
+  };
+
+  applyDraft([fixed, repeatable], state, draft);
+
+  assert.deepEqual(state.basics, { fullName: 'Jane Doe', note: 'hi' });
+  assert.deepEqual(state.accounts, [
+    { service: 'Gmail', user: 'jane@example.com' },
+    { service: 'Bank', user: 'jane' },
+  ]);
+});
+
+test('applyDraft drops unknown keys and coerces non-string field values', () => {
+  const state = createInitialState([fixed]);
+  applyDraft([fixed], state, { basics: { fullName: 'Jane', note: 42, evil: '<script>' } });
+  assert.deepEqual(state.basics, { fullName: 'Jane', note: '' });
+});
+
+test('applyDraft leaves a section untouched when the draft is missing or mismatched', () => {
+  const state = createInitialState([fixed, repeatable]);
+  const before = structuredClone(state);
+
+  applyDraft([fixed, repeatable], state, { basics: 'not an object', accounts: {} });
+
+  assert.deepEqual(state, before);
+});
+
+test('applyDraft is a no-op for null, non-object, or empty-array-shaped drafts', () => {
+  const state = createInitialState([fixed, repeatable]);
+  const before = structuredClone(state);
+
+  assert.deepEqual(applyDraft([fixed, repeatable], structuredClone(state), null), before);
+  assert.deepEqual(applyDraft([fixed, repeatable], structuredClone(state), 'nope'), before);
+  applyDraft([fixed, repeatable], state, { accounts: [] });
+  assert.deepEqual(state, before);
 });
 
 test('buildDocument preserves schema order', () => {
