@@ -111,6 +111,18 @@ test('buildMeta personalizes title and subtitle once basics are filled in', () =
   });
 });
 
+test('buildDocument defaults a missing description to an empty string', () => {
+  const noDescription = { ...fixed, description: undefined };
+  const s = buildDocument([noDescription], { basics: { fullName: 'Jane', note: '' } }).sections[0];
+  assert.equal(s.description, '');
+});
+
+test('buildDocument treats a non-array repeatable value as no entries, not a crash', () => {
+  const s = buildDocument([repeatable], { accounts: undefined }).sections[0];
+  assert.deepEqual(s.groups, []);
+  assert.equal(s.empty, 'None listed');
+});
+
 test('applyDraft merges matching fixed and repeatable sections into state', () => {
   const state = createInitialState([fixed, repeatable]);
   const draft = {
