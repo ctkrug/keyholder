@@ -122,4 +122,66 @@ export const SECTIONS = [
       },
     ],
   },
+  {
+    id: 'assets',
+    title: 'Physical assets & important documents',
+    description:
+      'Where the tangible things are: the deed, the passports, the safe, the spare keys.',
+    repeatable: { noun: 'item', addLabel: 'Add an item' },
+    fields: [
+      { id: 'name', label: 'Document or asset', type: 'text', placeholder: 'House deed' },
+      { id: 'location', label: 'Physical location', type: 'text', placeholder: 'Safe deposit box, First National' },
+      {
+        id: 'access',
+        label: 'Access notes',
+        type: 'textarea',
+        help: 'Free text you control — a lockbox reference, who holds a key. This app stores no secrets for you.',
+        placeholder: 'Box key is on the ring in the kitchen drawer.',
+      },
+    ],
+  },
+  {
+    id: 'dependents',
+    title: 'Pets & dependents',
+    description: 'Who depends on you day to day, and who should step in.',
+    repeatable: { noun: 'dependent', addLabel: 'Add a pet or dependent' },
+    fields: [
+      { id: 'name', label: 'Name', type: 'text', placeholder: 'Biscuit (dog)' },
+      {
+        id: 'care',
+        label: 'Care instructions',
+        type: 'textarea',
+        placeholder: 'Twice-daily meals, medication in the fridge, vet is Elmwood Animal.',
+      },
+      { id: 'contact', label: 'Designated caregiver or contact', type: 'text', placeholder: 'Alex Doe, (555) 010-3311' },
+    ],
+  },
+  {
+    id: 'finalWishes',
+    title: 'Final wishes',
+    description:
+      'Your preferences, in your words. This is guidance for the people you trust — it is not a ' +
+      'legal will and does not replace one.',
+    fields: [
+      {
+        id: 'disposition',
+        label: 'Burial, cremation, or other preference',
+        type: 'textarea',
+        placeholder: 'Cremation; ashes scattered at the lake house.',
+      },
+      {
+        id: 'service',
+        label: 'Service or memorial preferences',
+        type: 'textarea',
+        placeholder: 'Small gathering, no formal service. Play the record collection.',
+      },
+      { id: 'other', label: 'Anything else', type: 'textarea', placeholder: 'Donate usable items to the shelter on 5th.' },
+    ],
+  },
+  {
+    id: 'notes',
+    title: 'Free-form notes',
+    description: 'Anything that did not fit above. This section always prints last.',
+    fields: [{ id: 'notes', label: 'Notes', type: 'textarea', placeholder: 'The garage code is written inside the fuse box door.' }],
+  },
 ];
