@@ -118,3 +118,82 @@ body {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Header: zero-network banner + the signature animated wordmark. */
+
+.page {
+  padding: var(--space-3) var(--space-4) var(--space-8);
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
+.site-header {
+  margin-bottom: var(--space-4);
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-3);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-control);
+  background: var(--surface-1);
+  color: var(--text);
+  font-size: 0.9rem;
+  max-width: 70ch;
+}
+
+.banner__icon {
+  flex-shrink: 0;
+  font-size: 1.1rem;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 0.15em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 2rem + 2vw, 3.5rem);
+  letter-spacing: -0.01em;
+}
+
+.wordmark__key {
+  color: var(--text);
+}
+
+.wordmark__holder {
+  color: var(--accent-support);
+}
+
+.wordmark__glyph {
+  width: 0.65em;
+  height: 0.65em;
+  color: var(--accent);
+  transform-origin: 60% 60%;
+  animation: seal-break 640ms ease-out 1;
+}
+
+@keyframes seal-break {
+  0% {
+    transform: rotate(-35deg) scale(0.8);
+    opacity: 0;
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.tagline {
+  margin: var(--space-1) 0 0;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 60ch;
+}
