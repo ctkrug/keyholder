@@ -578,3 +578,59 @@ textarea.field__control {
   content: '—';
   color: var(--text-muted);
 }
+
+/* Phone refinements below 900px: tighter page padding and a slightly
+   smaller paper margin so the sheet doesn't feel cramped stacked full-width. */
+@media (max-width: 899px) {
+  .page {
+    padding: var(--space-2) var(--space-2) var(--space-6);
+  }
+
+  .paper {
+    padding: var(--space-3);
+    min-height: 40vh;
+  }
+
+  .doc-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .doc-field__label {
+    font-size: 0.85rem;
+  }
+}
+
+/* Print: let the browser's own Print dialog produce the same document the
+   PDF export does, section order and all — no app chrome, no form, no
+   banner, just the sheet. */
+@media print {
+  body {
+    background: #fff;
+    background-image: none;
+  }
+
+  .site-header,
+  .panel--form {
+    display: none;
+  }
+
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .paper {
+    min-height: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .doc-section {
+    break-inside: avoid;
+  }
+}
