@@ -41,19 +41,22 @@ You fill in a short form and a clean, printable estate document builds itself li
 pane as you type — then a banner confirms nothing you typed ever left the browser (verifiable
 in devtools: zero network requests, ever).
 
-## Planned features
+## Features
 
 - **Live preview pane** — the document renders as you fill in the form, so you always see the
   final output before you export it.
 - **Structured checklist sections** — accounts & logins, financial accounts, insurance
   policies, subscriptions to cancel, physical assets & documents, pets & dependents,
-  final wishes, and a free-form notes section.
+  final wishes, and a free-form notes section, each supporting multiple entries where it
+  makes sense (more than one bank account, more than one policy...).
 - **PDF export** — one click, powered by [jsPDF](https://github.com/parallax/jsPDF), entirely
   in-browser.
 - **Zero network verification banner** — a visible, honest confirmation (not a marketing claim)
   that nothing was sent anywhere, so you can check it yourself.
-- **Local draft autosave** — optional save-to-`localStorage` so a reload doesn't lose your work
-  (still 100% on-device, never synced).
+- **Optional local draft autosave** — off by default; switch it on and your progress is saved to
+  `localStorage` so a reload doesn't lose your work (still 100% on-device, never synced —
+  switching it back off clears the saved draft immediately).
+- **Clear all** — wipes the form and any saved draft, behind an explicit confirmation.
 - **Print-friendly layout** — the same document is legible printed directly from the browser,
   no PDF required.
 
