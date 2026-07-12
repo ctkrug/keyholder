@@ -19,6 +19,23 @@ only place your information ever exists is the file you saved.
 
 This isn't a privacy *policy* — it's an architectural fact you can verify yourself.
 
+## Verify it yourself
+
+Don't take the banner's word for it — check in about ten seconds:
+
+1. Open the deployed site (or serve `src/` locally — see Development below) in a browser.
+2. Open devtools and go to the **Network** tab. Clear it, and enable "Disable cache" if you
+   want to be strict about it.
+3. Fill in every field across every section — accounts, financial, insurance, all of it.
+4. Click **Export PDF**.
+5. Look at the Network tab: **zero requests appear**, before, during, or after any of that.
+   The only entries you'll ever see are the page's own files loading once at the very start
+   (`index.html`, `style.css`, `app.js` and its modules, the vendored jsPDF bundle, and the two
+   self-hosted fonts) — nothing fires again as you type or export, because there's no code path
+   that could: the form, the preview, and the PDF exporter are pure functions over in-memory
+   state, and jsPDF's `.save()` writes directly to a browser download, not a network request.
+
+
 ## The wow moment
 
 You fill in a short form and a clean, printable estate document builds itself live in a preview
