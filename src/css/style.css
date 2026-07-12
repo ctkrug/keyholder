@@ -435,3 +435,38 @@ textarea.field__control {
   color: var(--danger);
   font-weight: 500;
 }
+
+/* Repeatable sections: each entry is its own bordered fieldset so 3+ rows
+   (accounts, policies, subscriptions...) stay visually distinct instead of
+   blurring into one long list. */
+
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: var(--space-2);
+  margin: 0;
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius-paper);
+  background: var(--bg);
+}
+
+.entry__legend {
+  padding: 0 0.4em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--accent-support);
+}
+
+.entry__remove {
+  align-self: flex-end;
+  margin-top: var(--space-1);
+}
