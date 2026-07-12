@@ -3,7 +3,7 @@ import { createInitialState, buildDocument, buildMeta, applyDraft } from './mode
 import { renderForm } from './form.js';
 import { documentToHtml } from './preview.js';
 import { exportPdf } from './pdf.js';
-import { isAutosaveEnabled, setAutosaveEnabled, saveDraft, loadDraft } from './storage.js';
+import { isAutosaveEnabled, setAutosaveEnabled, saveDraft, loadDraft, clearDraft } from './storage.js';
 
 const EXPORT_FLASH_MS = 1400;
 
@@ -13,6 +13,7 @@ function init() {
   const formEl = document.getElementById('checklist-form');
   const preview = document.getElementById('preview');
   const exportButton = document.getElementById('export-pdf');
+  const clearButton = document.getElementById('clear-all');
   const exportStatus = document.getElementById('export-status');
   const autosaveToggle = document.getElementById('autosave-toggle');
 
@@ -52,6 +53,21 @@ function init() {
     } finally {
       setTimeout(() => exportButton.classList.remove('btn--pressed'), EXPORT_FLASH_MS);
     }
+  });
+
+  clearButton.addEventListener('click', () => {
+    if (!window.confirm('Clear the whole form? This cannot be undone.')) return;
+
+    const fresh = createInitialState(SECTIONS);
+    Object.keys(state).forEach((key) => delete state[key]);
+    Object.assign(state, fresh);
+    clearDraft(storage);
+
+    renderForm(formEl, SECTIONS, state, update);
+    update();
+
+    exportStatus.textContent = 'Form cleared.';
+    exportStatus.classList.remove('status-line--success', 'status-line--error');
   });
 }
 
