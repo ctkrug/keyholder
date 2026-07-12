@@ -87,6 +87,12 @@ test('buildDocument numbers repeatable entries and drops blank ones', () => {
   assert.equal(s.groups[1].rows[0].value, 'Bank');
 });
 
+test('buildDocument does not crash on a repeatable noun that is an empty string', () => {
+  const blankNoun = { ...repeatable, repeatable: { noun: '', addLabel: 'Add' } };
+  const s = buildDocument([blankNoun], { accounts: [{ service: 'Gmail', user: 'jane' }] }).sections[0];
+  assert.equal(s.groups[0].heading, ' 1');
+});
+
 test('buildDocument marks an all-blank repeatable section None listed', () => {
   const s = buildDocument([repeatable], { accounts: [{ service: '', user: '' }] }).sections[0];
   assert.deepEqual(s.groups, []);
