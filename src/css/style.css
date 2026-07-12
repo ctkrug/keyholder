@@ -703,6 +703,49 @@ textarea.field__control {
   }
 }
 
+/* Learn section: readable prose below the tool that answers the questions
+   people actually search for (digital estate planning, account access after
+   death). A single measured column set on the cream page, same paper-and-ink
+   type system as everything above. */
+
+.learn {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--surface-2);
+}
+
+.learn__inner {
+  max-width: 68ch;
+}
+
+.learn__title {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 1.4rem + 1vw, 2.1rem);
+  line-height: 1.15;
+  color: var(--text);
+}
+
+.learn__lead {
+  margin: 0 0 var(--space-4);
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.learn__q {
+  margin: var(--space-3) 0 var(--space-1);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--accent-support);
+}
+
+.learn__a {
+  margin: 0;
+  color: var(--text);
+}
+
 /* Footer: an unobtrusive close to the page — the GitHub source link (this
    tool's honesty rests on being readable) and one quiet portfolio link. */
 
@@ -752,6 +795,7 @@ textarea.field__control {
 
   .site-header,
   .panel--form,
+  .learn,
   .site-footer {
     display: none;
   }
